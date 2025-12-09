@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎄 Compte à Rebours de Noël</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --rouge-noel: #8B0000;
+            --rouge-fonce: #5C0000;
+            --vert-sapin: #0F5132;
+            --vert-clair: #1a7a4a;
+            --dore: #D4AF37;
+            --dore-clair: #FFD700;
+            --orange-feu: #FF6B35;
+            --beige: #F5E6D3;
+            --noir: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+            background: var(--rouge-fonce);
+            color: var(--beige);
+            transition: background 0.5s ease;
+            width: 100%;
+        }
+
+        body.night-mode {
+            background: #0a0a0a;
+        }
+
+        /* Background salon de Noël flou */
+        .background-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            filter: blur(40px);
+            background: 
+                radial-gradient(ellipse at 20% 80%, var(--orange-feu) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, var(--dore) 0%, transparent 50%),
+                linear-gradient(135deg, var(--rouge-noel) 0%, var(--vert-sapin) 100%);
+            background-size: 200% 200%;
+            animation: backgroundShift 20s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Guirlandes animées en haut */
+        .garland {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            z-index: 5;
+            display: flex;
+            justify-content: space-around;
+            pointer-events: none;
+        }
+
+        .garland-light {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: twinkle 1.5s ease-in-out infinite;
+            box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+        }
+
+        .garland-light:nth-child(1) { color: #ff0000; animation-delay: 0s; }
+        .garland-light:nth-child(2) { color: #00ff00; animation-delay: 0.2s; }
+        .garland-light:nth-child(3) { color: #ffff00; animation-delay: 0.4s; }
+        .garland-light:nth-child(4) { color: #ff00ff; animation-delay: 0.6s; }
+        .garland-light:nth-child(5) { color: #00ffff; animation-delay: 0.8s; }
+        .garland-light:nth-child(6) { color: #ff0000; animation-delay: 1s; }
+        .garland-light:nth-child(7) { color: #00ff00; animation-delay: 1.2s; }
+        .garland-light:nth-child(8) { color: #ffff00; animation-delay: 1.4s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Warm glow autour du contenu */
+        .warm-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 1;
+            pointer-events: none;
+            animation: glowPulse 3s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+        }
+
+        /* Neige */
+        .snowflake {
+            position: fixed;
+            color: white;
+            font-size: 1em;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            animation: fall linear infinite;
+            opacity: 0.6;
+            z-index: 2;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Container principal */
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            width: 100%;
+            overflow: visible;
+        }
+
+        /* Titre */
+        h1 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 4rem;
+            color: var(--dore-clair);
+            text-shadow: 
+                3px 3px 0px var(--rouge-noel),
+                0 0 20px rgba(212, 175, 55, 0.8),
+                0 0 40px rgba(212, 175, 55, 0.4);
+            margin-bottom: 1rem;
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: var(--beige);
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-style: italic;
+        }
+
+        /* Compte à rebours style horloge de Noël */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .time-unit {
+            background: linear-gradient(145deg, var(--dore-clair), var(--dore));
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            min-width: 140px;
+            box-shadow: 
+                inset 0 2px 4px rgba(255, 255, 255, 0.3),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+                0 8px 16px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(212, 175, 55, 0.3);
+            position: relative;
+            border: 3px solid var(--rouge-noel);
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        .time-unit::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, var(--rouge-noel), var(--vert-sapin));
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .time-value {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--rouge-noel);
+            text-shadow: 
+                2px 2px 0px rgba(255, 255, 255, 0.5),
+                -1px -1px 0px rgba(0, 0, 0, 0.3),
+                0 0 10px rgba(139, 0, 0, 0.5);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            font-family: 'Mountains of Christmas', cursive;
+        }
+
+        .time-label {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--rouge-fonce);
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Étoiles scintillantes */
+        .star {
+            position: absolute;
+            color: var(--dore-clair);
+            font-size: 1.5rem;
+            animation: sparkle 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+        }
+
+        /* Contrôles */
+        .controls {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .control-btn {
+            background: rgba(139, 0, 0, 0.8);
+            border: 2px solid var(--dore);
+            color: var(--beige);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-btn:hover {
+            background: rgba(139, 0, 0, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .control-btn.active {
+            background: var(--dore);
+            color: var(--rouge-noel);
+        }
+
+        /* Message du jour (calendrier de l'avent) */
+        .daily-message {
+            background: rgba(15, 81, 50, 0.9);
+            border: 2px solid var(--dore);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            max-width: 600px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .daily-message h3 {
+            color: var(--dore-clair);
+            margin-bottom: 0.5rem;
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 1.5rem;
+        }
+
+        .daily-message p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Message final */
+        .final-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--rouge-noel), var(--vert-sapin));
+            padding: 3rem;
+            border-radius: 20px;
+            border: 4px solid var(--dore);
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.8);
+            text-align: center;
+            max-width: 600px;
+            animation: messageAppear 0.5s ease;
+        }
+
+        .final-message.show {
+            display: block;
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .final-message h2 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 3rem;
+            color: var(--dore-clair);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .final-message p {
+            font-size: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Liste de souhaits */
+        .wishlist-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 200;
+            background: linear-gradient(135deg, var(--rouge-noel), var(--vert-sapin));
+            padding: 2rem;
+            border-radius: 20px;
+            border: 3px solid var(--dore);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+            max-width: 500px;
+            width: 90%;
+            display: none;
+        }
+
+        .wishlist-panel.show {
+            display: block;
+        }
+
+        .wishlist-panel h3 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 2rem;
+            color: var(--dore-clair);
+            margin-bottom: 1rem;
+        }
+
+        .wishlist-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--dore);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--beige);
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .wishlist-input::placeholder {
+            color: rgba(245, 230, 211, 0.6);
+        }
+
+        .wishlist-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .wish-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wish-item span {
+            flex: 1;
+        }
+
+        .wish-item button {
+            background: var(--rouge-fonce);
+            border: none;
+            color: var(--beige);
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .wish-item button:hover {
+            background: var(--rouge-noel);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: var(--beige);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.3rem;
+            }
+
+            .time-unit {
+                min-width: 100px;
+                padding: 1.5rem 1rem;
+            }
+
+            .time-value {
+                font-size: 2.5rem;
+            }
+
+            .controls {
+                top: 80px;
+                right: 10px;
+            }
+
+            .control-btn {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Neige intense */
+        body.intense-snow .snowflake {
+            opacity: 1;
+            animation-duration: 1s !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background flou -->
+    <div class="background-scene"></div>
+    <div class="warm-glow"></div>
+
+    <!-- Guirlandes -->
+    <div class="garland">
+        <div class="garland-light"></div>
+        <div class="garland-light"></div>
+        <div class="garland-light"></div>
+        <div class="garland-light"></div>
+        <div class="garland-light"></div>
+        <div class="garland-light"></div>
+        <div class="garland-light"></div>
+        <div class="garland-light"></div>
+    </div>
+
+    <!-- Contrôles -->
+    <div class="controls">
+        <button class="control-btn" id="musicBtn" onclick="toggleMusic()">🎵 Musique</button>
+        <button class="control-btn" id="nightBtn" onclick="toggleNightMode()">🌙 Mode Nuit</button>
+        <button class="control-btn" onclick="toggleWishlist()">🎁 Liste de Souhaits</button>
+    </div>
+
+    <!-- Container principal -->
+    <div class="container">
+        <h1 id="title">🎄 Compte à Rebours</h1>
+        <p class="subtitle" id="subtitle">Jours restants jusqu'à Noël</p>
+        
+        <div class="countdown">
+            <div class="time-unit">
+                <div class="time-value" id="days">00</div>
+                <div class="time-label">Jours</div>
+            </div>
+            <div class="time-unit">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Heures</div>
+            </div>
+            <div class="time-unit">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Minutes</div>
+            </div>
+            <div class="time-unit">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Secondes</div>
+            </div>
+        </div>
+
+        <!-- Message quotidien -->
+        <div class="daily-message" id="dailyMessage"></div>
+    </div>
+
+    <!-- Message final -->
+    <div class="final-message" id="finalMessage">
+        <h2>🎅 Le grand jour est là !</h2>
+        <p>Que la magie de Noël illumine votre maison ✨</p>
+    </div>
+
+    <!-- Liste de souhaits -->
+    <div class="wishlist-panel" id="wishlistPanel">
+        <button class="close-btn" onclick="toggleWishlist()">×</button>
+        <h3>🎁 Ma Liste de Souhaits</h3>
+        <input type="text" class="wishlist-input" id="wishInput" placeholder="Ajouter un souhait..." onkeypress="if(event.key === 'Enter') addWish()">
+        <div class="wishlist-items" id="wishlistItems"></div>
+        <button class="control-btn" onclick="addWish()" style="width: 100%;">Ajouter</button>
+    </div>
+
+    <!-- Audio pour la musique -->
+    <audio id="backgroundMusic" loop>
+        <!-- La musique sera générée via Web Audio API ou utilisera un fichier externe -->
+    </audio>
+
+    <script>
+        // Messages du calendrier de l'avent
+        const adventMessages = [
+            "Premier jour : Une douce pensée pour toi, que ta journée soit remplie d'amour et de chaleur ✨",
+            "Deuxième jour : Que ta journée t'apporte douceur et tendresse, comme tu en donnes chaque jour 💖",
+            "Troisième jour : Je te souhaite de belles petites joies qui réchauffent le cœur 🌟",
+            "Quatrième jour : Une nouvelle journée pour sourire, aimer et te sentir précieuse ❤️",
+            "Cinquième jour : Que cette journée t'apporte paix, sérénité et un rayon de bonheur 🎀",
+            "Sixième jour : Passe une belle journée, remplie de douceur et de petites attentions 🕊️",
+            "Septième jour : Je te souhaite un moment rien qu'à toi, pour te faire du bien et respirer 💛",
+            "Huitième jour : Que ta journée soit belle, lumineuse et pleine d'amour ✨",
+            "Neuvième jour : Aujourd'hui encore, tu mérites le meilleur, de la tranquillité et un sourire sincère 🌼",
+            "Dixième jour : Une nouvelle journée commence, je te souhaite douceur et bonheur 💞",
+            "Onzième jour : Bientôt Noël, que cette attente soit douce, calme et joyeuse 🌟",
+            "Douzième jour : Que cette journée t'offre de belles émotions et beaucoup de tendresse 🩷",
+            "Treizième jour : Aujourd'hui, sois heureuse, légere, et laisse la magie t'accompagner ✨",
+            "Quatorzième jour : Que ton sourire illumine ta journée, comme il illumine celles des autres ❤️",
+            "Quinzième jour : Un petit message pour te rappeler à quel point tu comptes 💐",
+            "Seizième jour : Je te souhaite une journée pleine de douceur, de chaleur et d'amour 💗",
+            "Dix-septième jour : Passe une belle journée remplie de petites joies simples 🌸",
+            "Dix-huitième jour : Que la magie de la journée t'enveloppe doucement ✨",
+            "Dix-neuvième jour : Une pensée tendre pour illuminer un peu ta journée 💛",
+            "Vingtième jour : Que ton cœur soit léger et ta journée douce comme un câlin 💞",
+            "Vingt-et-unième jour : Je te souhaite un moment de calme et de bonheur bien mérité 🌟",
+            "Vingt-deuxième jour : Une journée pour sourire, aimer, et te sentir bien ❤️",
+            "Vingt-troisième jour : Plus qu'un jour avant la magie, que cette journée soit douce et paisible ✨",
+            "Vingt-quatrième jour : C'est presque Noël, que ta journée soit remplie de chaleur et d'amour 🌹",
+            "Joyeux Noël : Que cette journée te comble de bonheur, de douceur et d'amour 🎄❤️✨"
+        ];
+
+        // Variables globales
+        let musicPlaying = false;
+        let nightMode = false;
+        let audioContext = null;
+        let oscillator = null;
+        let gainNode = null;
+
+        // Créer des flocons de neige
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.top = '-20px';
+            snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+            snowflake.style.position = 'fixed';
+            snowflake.style.pointerEvents = 'none';
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                if (snowflake.parentNode) {
+                    snowflake.remove();
+                }
+            }, 5000);
+        }
+
+        // Créer des étoiles scintillantes
+        function createStar() {
+            const container = document.querySelector('.container');
+            if (!container) return;
+            
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.innerHTML = '⭐';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            star.style.pointerEvents = 'none';
+            container.appendChild(star);
+
+            setTimeout(() => {
+                if (star.parentNode) {
+                    star.remove();
+                }
+            }, 4000);
+        }
+
+        // Créer des flocons et étoiles
+        setInterval(createSnowflake, 300);
+        setInterval(createStar, 2000);
+
+        // Calculer le temps restant
+        function getTimeRemaining() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            
+            let christmas = new Date(currentYear, 11, 25, 0, 0, 0);
+            let newYear = new Date(currentYear + 1, 0, 1, 0, 0, 0);
+            
+            let targetDate;
+            let title = document.getElementById('title');
+            let subtitle = document.getElementById('subtitle');
+            
+            if (now < christmas) {
+                targetDate = christmas;
+                title.textContent = '🎄 Compte à Rebours';
+                subtitle.textContent = 'Jours restants jusqu\'à Noël';
+            } 
+            else if (now < newYear) {
+                targetDate = newYear;
+                title.textContent = '🎆 Compte à Rebours';
+                subtitle.textContent = 'Jours restants jusqu\'au Nouvel An';
+            }
+            else {
+                christmas = new Date(currentYear + 1, 11, 25, 0, 0, 0);
+                targetDate = christmas;
+                title.textContent = '🎄 Compte à Rebours';
+                subtitle.textContent = 'Jours restants jusqu\'à Noël';
+            }
+            
+            const difference = targetDate - now;
+            
+            if (difference <= 0) {
+                showFinalMessage();
+                return {
+                    total: 0,
+                    days: 0,
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0
+                };
+            }
+            
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            
+            return {
+                total: difference,
+                days: days,
+                hours: hours,
+                minutes: minutes,
+                seconds: seconds
+            };
+        }
+
+        // Mettre à jour le compte à rebours
+        function updateCountdown() {
+            const time = getTimeRemaining();
+            
+            document.getElementById('days').textContent = String(time.days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(time.hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(time.minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(time.seconds).padStart(2, '0');
+
+            // Afficher le message quotidien
+            updateDailyMessage();
+        }
+
+        // Message quotidien (calendrier de l'avent)
+        function updateDailyMessage() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth(); // 0-11, décembre = 11
+            const currentDay = now.getDate(); // 1-31
+            const christmas = new Date(currentYear, 11, 25, 0, 0, 0);
+            
+            // Si on est en décembre et avant ou le jour de Noël
+            if (currentMonth === 11 && currentDay <= 25) {
+                // Le calendrier de l'avent va du 1er au 24 décembre
+                // Index 0 = 1er décembre, index 23 = 24 décembre
+                const messageIndex = currentDay - 1;
+                
+                if (messageIndex >= 0 && messageIndex < adventMessages.length) {
+                    const dailyMsg = document.getElementById('dailyMessage');
+                    dailyMsg.innerHTML = `
+                        <h3>📅 Message du Jour</h3>
+                        <p>${adventMessages[messageIndex]}</p>
+                    `;
+                }
+            } else if (now >= christmas) {
+                // Si c'est Noël ou après, afficher le dernier message
+                const dailyMsg = document.getElementById('dailyMessage');
+                dailyMsg.innerHTML = `
+                    <h3>📅 Message du Jour</h3>
+                    <p>${adventMessages[adventMessages.length - 1]}</p>
+                `;
+            }
+        }
+
+        // Afficher le message final
+        function showFinalMessage() {
+            const finalMsg = document.getElementById('finalMessage');
+            finalMsg.classList.add('show');
+            document.body.classList.add('intense-snow');
+            
+            // Son de clochette
+            playBellSound();
+        }
+
+        // Toggle musique
+        function toggleMusic() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (!musicPlaying) {
+                // Créer une mélodie simple de Jingle Bells
+                const notes = [
+                    { freq: 523.25, duration: 200 }, // C
+                    { freq: 523.25, duration: 200 }, // C
+                    { freq: 523.25, duration: 400 }, // C
+                    { freq: 523.25, duration: 200 }, // C
+                    { freq: 523.25, duration: 200 }, // C
+                    { freq: 523.25, duration: 400 }, // C
+                    { freq: 523.25, duration: 200 }, // C
+                    { freq: 659.25, duration: 200 }, // E
+                    { freq: 493.88, duration: 200 }, // B
+                    { freq: 523.25, duration: 200 }, // C
+                    { freq: 587.33, duration: 800 }  // D
+                ];
+
+                playMelody(notes, 0);
+                musicPlaying = true;
+                document.getElementById('musicBtn').classList.add('active');
+            } else {
+                if (oscillator) {
+                    oscillator.stop();
+                    oscillator = null;
+                }
+                musicPlaying = false;
+                document.getElementById('musicBtn').classList.remove('active');
+            }
+        }
+
+        // Jouer une mélodie
+        function playMelody(notes, index) {
+            if (index >= notes.length || !musicPlaying) return;
+
+            const note = notes[index];
+            oscillator = audioContext.createOscillator();
+            gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = note.freq;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + note.duration / 1000);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + note.duration / 1000);
+
+            oscillator.onended = () => {
+                setTimeout(() => {
+                    playMelody(notes, index + 1);
+                }, 50);
+            };
+        }
+
+        // Son de clochette
+        function playBellSound() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            const frequencies = [523.25, 659.25, 783.99]; // C, E, G
+            frequencies.forEach((freq, index) => {
+                setTimeout(() => {
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+
+                    osc.connect(gain);
+                    gain.connect(audioContext.destination);
+
+                    osc.frequency.value = freq;
+                    osc.type = 'sine';
+
+                    gain.gain.setValueAtTime(0.5, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+                    osc.start(audioContext.currentTime);
+                    osc.stop(audioContext.currentTime + 0.5);
+                }, index * 100);
+            });
+        }
+
+        // Toggle mode nuit
+        function toggleNightMode() {
+            nightMode = !nightMode;
+            document.body.classList.toggle('night-mode', nightMode);
+            document.getElementById('nightBtn').classList.toggle('active', nightMode);
+        }
+
+        // Liste de souhaits
+        function toggleWishlist() {
+            const panel = document.getElementById('wishlistPanel');
+            panel.classList.toggle('show');
+            loadWishlist();
+        }
+
+        function loadWishlist() {
+            const wishes = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const container = document.getElementById('wishlistItems');
+            container.innerHTML = '';
+
+            if (wishes.length === 0) {
+                container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Aucun souhait pour le moment</p>';
+                return;
+            }
+
+            wishes.forEach((wish, index) => {
+                const item = document.createElement('div');
+                item.className = 'wish-item';
+                item.innerHTML = `
+                    <span>${wish}</span>
+                    <button onclick="removeWish(${index})">Supprimer</button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function addWish() {
+            const input = document.getElementById('wishInput');
+            const wish = input.value.trim();
+            
+            if (wish) {
+                const wishes = JSON.parse(localStorage.getItem('wishlist') || '[]');
+                wishes.push(wish);
+                localStorage.setItem('wishlist', JSON.stringify(wishes));
+                input.value = '';
+                loadWishlist();
+            }
+        }
+
+        function removeWish(index) {
+            const wishes = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            wishes.splice(index, 1);
+            localStorage.setItem('wishlist', JSON.stringify(wishes));
+            loadWishlist();
+        }
+
+        // Initialisation
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        updateDailyMessage();
+
+        // Charger le mode nuit depuis localStorage
+        if (localStorage.getItem('nightMode') === 'true') {
+            toggleNightMode();
+        }
+
+        // Sauvegarder le mode nuit
+        document.getElementById('nightBtn').addEventListener('click', () => {
+            localStorage.setItem('nightMode', nightMode);
+        });
+    </script>
+</body>
+</html>
