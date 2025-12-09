@@ -198,9 +198,14 @@
 
         .time-unit {
             background: linear-gradient(145deg, var(--dore-clair), var(--dore));
-            padding: 2.5rem 2rem;
+            padding: 1rem;
             border-radius: 20px;
-            min-width: 140px;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             box-shadow: 
                 inset 0 2px 4px rgba(255, 255, 255, 0.3),
                 inset 0 -2px 4px rgba(0, 0, 0, 0.3),
@@ -209,6 +214,9 @@
             position: relative;
             border: 3px solid var(--rouge-noel);
             animation: breathe 3s ease-in-out infinite;
+            box-sizing: border-box;
+            overflow: hidden;
+            flex-shrink: 0;
         }
 
         .time-unit::before {
@@ -235,6 +243,8 @@
             line-height: 1;
             margin-bottom: 0.5rem;
             font-family: 'Mountains of Christmas', cursive;
+            flex-shrink: 1;
+            min-height: 0;
         }
 
         .time-label {
@@ -371,23 +381,78 @@
         }
 
 
-        /* Responsive */
+        /* Responsive - Tablettes */
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            .subtitle {
+                font-size: 1.5rem;
+            }
+
+            .time-unit {
+                width: 120px;
+                height: 120px;
+            }
+
+            .time-value {
+                font-size: 3rem;
+            }
+
+            .warm-glow {
+                width: 600px;
+                height: 600px;
+            }
+        }
+
+        /* Responsive - Tablettes et petits écrans */
         @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
             h1 {
                 font-size: 2.5rem;
+                margin-bottom: 0.8rem;
             }
 
             .subtitle {
                 font-size: 1.3rem;
+                margin-bottom: 2rem;
+            }
+
+            .countdown {
+                gap: 1rem;
+                margin-bottom: 2rem;
             }
 
             .time-unit {
-                min-width: 100px;
-                padding: 1.5rem 1rem;
+                width: 100px;
+                height: 100px;
             }
 
             .time-value {
                 font-size: 2.5rem;
+            }
+
+            .time-label {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+
+            .daily-message {
+                padding: 1.2rem;
+                margin-top: 1.5rem;
+                max-width: 100%;
+            }
+
+            .daily-message h3 {
+                font-size: 1.3rem;
+            }
+
+            .daily-message p {
+                font-size: 1rem;
             }
 
             .controls {
@@ -397,6 +462,265 @@
             .control-btn {
                 padding: 0.5rem 1.2rem;
                 font-size: 0.85rem;
+            }
+
+            .warm-glow {
+                width: 500px;
+                height: 500px;
+            }
+
+            .garland {
+                height: 50px;
+            }
+
+            .garland-light {
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+        /* Responsive - Petits mobiles */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 0.8rem;
+                min-height: 100vh;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .countdown {
+                gap: 0.6rem;
+                margin-bottom: 1.5rem;
+                width: 100%;
+                max-width: 100%;
+                padding: 0 0.5rem;
+            }
+
+            .time-unit {
+                width: calc(50% - 0.3rem);
+                aspect-ratio: 1;
+                max-width: none;
+            }
+
+            .time-value {
+                font-size: 1.8rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .time-label {
+                font-size: 0.75rem;
+                letter-spacing: 1px;
+            }
+
+            .daily-message {
+                padding: 1rem 0.8rem;
+                margin-top: 1rem;
+                width: calc(100% - 1.6rem);
+                max-width: 100%;
+            }
+
+            .daily-message h3 {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .daily-message p {
+                font-size: 0.85rem;
+                line-height: 1.5;
+            }
+
+            .controls {
+                bottom: 15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+            }
+
+            .control-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+
+            .warm-glow {
+                width: 100vw;
+                height: 100vw;
+                max-width: 400px;
+                max-height: 400px;
+            }
+
+            .garland {
+                height: 35px;
+                top: 10px;
+            }
+
+            .garland-light {
+                width: 10px;
+                height: 10px;
+            }
+
+            .final-message {
+                padding: 1.5rem 1rem;
+                max-width: 95%;
+                width: calc(100% - 2rem);
+            }
+
+            .final-message h2 {
+                font-size: 1.8rem;
+            }
+
+            .final-message p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Responsive - Très petits écrans */
+        @media (max-width: 375px) {
+            .container {
+                padding: 0.8rem 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 0.4rem;
+                padding: 0 0.3rem;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 1.2rem;
+                padding: 0 0.3rem;
+            }
+
+            .countdown {
+                gap: 0.5rem;
+                margin-bottom: 1.2rem;
+                padding: 0 0.3rem;
+            }
+
+            .time-unit {
+                width: calc(50% - 0.25rem);
+                aspect-ratio: 1;
+                max-width: none;
+            }
+
+            .time-value {
+                font-size: 1.6rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .time-label {
+                font-size: 0.7rem;
+                letter-spacing: 0.5px;
+            }
+
+            .daily-message {
+                padding: 0.9rem 0.7rem;
+                margin-top: 0.8rem;
+                width: calc(100% - 1.4rem);
+            }
+
+            .daily-message h3 {
+                font-size: 0.95rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .daily-message p {
+                font-size: 0.8rem;
+                line-height: 1.4;
+            }
+
+            .control-btn {
+                padding: 0.45rem 0.9rem;
+                font-size: 0.7rem;
+            }
+
+            .final-message {
+                padding: 1.2rem 0.8rem;
+            }
+
+            .final-message h2 {
+                font-size: 1.5rem;
+            }
+
+            .final-message p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Orientation paysage sur mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .container {
+                padding: 0.8rem;
+                min-height: auto;
+                justify-content: flex-start;
+                padding-top: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .countdown {
+                gap: 0.6rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .time-unit {
+                width: calc(25% - 0.45rem);
+                aspect-ratio: 1;
+                max-width: none;
+            }
+
+            .time-value {
+                font-size: 1.8rem;
+            }
+
+            .time-label {
+                font-size: 0.75rem;
+            }
+
+            .daily-message {
+                margin-top: 0.8rem;
+                padding: 0.8rem;
+            }
+
+            .daily-message h3 {
+                font-size: 1rem;
+            }
+
+            .daily-message p {
+                font-size: 0.85rem;
+            }
+
+            .controls {
+                bottom: 8px;
+            }
+
+            .control-btn {
+                padding: 0.4rem 0.9rem;
+                font-size: 0.75rem;
+            }
+
+            .warm-glow {
+                width: 400px;
+                height: 400px;
             }
         }
 
