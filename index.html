@@ -263,36 +263,42 @@
         /* Contrôles */
         .controls {
             position: fixed;
-            top: 100px;
-            right: 20px;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 100;
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            justify-content: center;
         }
 
         .control-btn {
-            background: rgba(139, 0, 0, 0.8);
-            border: 2px solid var(--dore);
+            background: rgba(139, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(212, 175, 55, 0.5);
             color: var(--beige);
-            padding: 0.8rem 1.2rem;
-            border-radius: 10px;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
             cursor: pointer;
             font-family: 'Crimson Text', serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0.8;
         }
 
         .control-btn:hover {
-            background: rgba(139, 0, 0, 1);
+            background: rgba(139, 0, 0, 0.6);
+            border-color: rgba(212, 175, 55, 0.8);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            opacity: 1;
         }
 
         .control-btn.active {
-            background: var(--dore);
-            color: var(--rouge-noel);
+            background: rgba(212, 175, 55, 0.3);
+            border-color: var(--dore);
+            color: var(--dore-clair);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
         }
 
         /* Message du jour (calendrier de l'avent) */
@@ -364,98 +370,6 @@
             line-height: 1.8;
         }
 
-        /* Liste de souhaits */
-        .wishlist-panel {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 200;
-            background: linear-gradient(135deg, var(--rouge-noel), var(--vert-sapin));
-            padding: 2rem;
-            border-radius: 20px;
-            border: 3px solid var(--dore);
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
-            max-width: 500px;
-            width: 90%;
-            display: none;
-        }
-
-        .wishlist-panel.show {
-            display: block;
-        }
-
-        .wishlist-panel h3 {
-            font-family: 'Mountains of Christmas', cursive;
-            font-size: 2rem;
-            color: var(--dore-clair);
-            margin-bottom: 1rem;
-        }
-
-        .wishlist-input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid var(--dore);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--beige);
-            font-family: 'Crimson Text', serif;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .wishlist-input::placeholder {
-            color: rgba(245, 230, 211, 0.6);
-        }
-
-        .wishlist-items {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-        }
-
-        .wish-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.8rem;
-            margin-bottom: 0.5rem;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .wish-item span {
-            flex: 1;
-        }
-
-        .wish-item button {
-            background: var(--rouge-fonce);
-            border: none;
-            color: var(--beige);
-            padding: 0.3rem 0.8rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .wish-item button:hover {
-            background: var(--rouge-noel);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: transparent;
-            border: none;
-            color: var(--beige);
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -477,13 +391,12 @@
             }
 
             .controls {
-                top: 80px;
-                right: 10px;
+                bottom: 20px;
             }
 
             .control-btn {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.9rem;
+                padding: 0.5rem 1.2rem;
+                font-size: 0.85rem;
             }
         }
 
@@ -513,9 +426,7 @@
 
     <!-- Contrôles -->
     <div class="controls">
-        <button class="control-btn" id="musicBtn" onclick="toggleMusic()">🎵 Musique</button>
         <button class="control-btn" id="nightBtn" onclick="toggleNightMode()">🌙 Mode Nuit</button>
-        <button class="control-btn" onclick="toggleWishlist()">🎁 Liste de Souhaits</button>
     </div>
 
     <!-- Container principal -->
@@ -552,19 +463,6 @@
         <p>Que la magie de Noël illumine votre maison ✨</p>
     </div>
 
-    <!-- Liste de souhaits -->
-    <div class="wishlist-panel" id="wishlistPanel">
-        <button class="close-btn" onclick="toggleWishlist()">×</button>
-        <h3>🎁 Ma Liste de Souhaits</h3>
-        <input type="text" class="wishlist-input" id="wishInput" placeholder="Ajouter un souhait..." onkeypress="if(event.key === 'Enter') addWish()">
-        <div class="wishlist-items" id="wishlistItems"></div>
-        <button class="control-btn" onclick="addWish()" style="width: 100%;">Ajouter</button>
-    </div>
-
-    <!-- Audio pour la musique -->
-    <audio id="backgroundMusic" loop>
-        <!-- La musique sera générée via Web Audio API ou utilisera un fichier externe -->
-    </audio>
 
     <script>
         // Messages du calendrier de l'avent
@@ -597,11 +495,8 @@
         ];
 
         // Variables globales
-        let musicPlaying = false;
         let nightMode = false;
         let audioContext = null;
-        let oscillator = null;
-        let gainNode = null;
 
         // Créer des flocons de neige
         function createSnowflake() {
@@ -758,67 +653,6 @@
             playBellSound();
         }
 
-        // Toggle musique
-        function toggleMusic() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-
-            if (!musicPlaying) {
-                // Créer une mélodie simple de Jingle Bells
-                const notes = [
-                    { freq: 523.25, duration: 200 }, // C
-                    { freq: 523.25, duration: 200 }, // C
-                    { freq: 523.25, duration: 400 }, // C
-                    { freq: 523.25, duration: 200 }, // C
-                    { freq: 523.25, duration: 200 }, // C
-                    { freq: 523.25, duration: 400 }, // C
-                    { freq: 523.25, duration: 200 }, // C
-                    { freq: 659.25, duration: 200 }, // E
-                    { freq: 493.88, duration: 200 }, // B
-                    { freq: 523.25, duration: 200 }, // C
-                    { freq: 587.33, duration: 800 }  // D
-                ];
-
-                playMelody(notes, 0);
-                musicPlaying = true;
-                document.getElementById('musicBtn').classList.add('active');
-            } else {
-                if (oscillator) {
-                    oscillator.stop();
-                    oscillator = null;
-                }
-                musicPlaying = false;
-                document.getElementById('musicBtn').classList.remove('active');
-            }
-        }
-
-        // Jouer une mélodie
-        function playMelody(notes, index) {
-            if (index >= notes.length || !musicPlaying) return;
-
-            const note = notes[index];
-            oscillator = audioContext.createOscillator();
-            gainNode = audioContext.createGain();
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-
-            oscillator.frequency.value = note.freq;
-            oscillator.type = 'sine';
-
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + note.duration / 1000);
-
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + note.duration / 1000);
-
-            oscillator.onended = () => {
-                setTimeout(() => {
-                    playMelody(notes, index + 1);
-                }, 50);
-            };
-        }
 
         // Son de clochette
         function playBellSound() {
@@ -854,53 +688,6 @@
             document.getElementById('nightBtn').classList.toggle('active', nightMode);
         }
 
-        // Liste de souhaits
-        function toggleWishlist() {
-            const panel = document.getElementById('wishlistPanel');
-            panel.classList.toggle('show');
-            loadWishlist();
-        }
-
-        function loadWishlist() {
-            const wishes = JSON.parse(localStorage.getItem('wishlist') || '[]');
-            const container = document.getElementById('wishlistItems');
-            container.innerHTML = '';
-
-            if (wishes.length === 0) {
-                container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Aucun souhait pour le moment</p>';
-                return;
-            }
-
-            wishes.forEach((wish, index) => {
-                const item = document.createElement('div');
-                item.className = 'wish-item';
-                item.innerHTML = `
-                    <span>${wish}</span>
-                    <button onclick="removeWish(${index})">Supprimer</button>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function addWish() {
-            const input = document.getElementById('wishInput');
-            const wish = input.value.trim();
-            
-            if (wish) {
-                const wishes = JSON.parse(localStorage.getItem('wishlist') || '[]');
-                wishes.push(wish);
-                localStorage.setItem('wishlist', JSON.stringify(wishes));
-                input.value = '';
-                loadWishlist();
-            }
-        }
-
-        function removeWish(index) {
-            const wishes = JSON.parse(localStorage.getItem('wishlist') || '[]');
-            wishes.splice(index, 1);
-            localStorage.setItem('wishlist', JSON.stringify(wishes));
-            loadWishlist();
-        }
 
         // Initialisation
         updateCountdown();
